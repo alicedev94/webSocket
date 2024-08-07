@@ -2,7 +2,7 @@ import { app, io, portRes } from "./app/app";
 import { router } from "./routes/main";
 import cors from 'cors';
 
-//settings
+// Settings
 app.use(cors());
 
 // RestApi
@@ -14,6 +14,7 @@ io.on('connection', (socket) => {
     socket.emit('hello', 'world');
 });
 
+// Start the REST API server
 app.listen(portRes, () => {
-    console.log(`Listen port: ${portRes}`);
+    console.log(`REST API server listening on port: ${portRes}`);
 });
