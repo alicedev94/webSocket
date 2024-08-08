@@ -1,4 +1,5 @@
 import { app, io, portRes } from "./app/app";
+import { notifications } from "./models/noti.model";
 import { router } from "./routes/main";
 import cors from 'cors';
 
@@ -11,7 +12,21 @@ app.use('/api/ts/v1/', router);
 // WebSocket
 io.on('connection', (socket) => {
     console.log('a user connected');
-    socket.emit('hello', 'world');
+    
+    // consulta constante a la base de datos
+    // setInterval(()=> {
+    //      socket.emit('updateState', notifications);
+    // }, 1000);
+   
+    // escucha en tiempo real por eventos
+    socket.on('latestNoti', (payload)=> {
+        console.log('Me acaban de decir: ',payload);
+        socket.emit('updateState', notifications);
+    });
+
+    socket.on('disconnect', () => {
+        console.log('a user disconnect');
+    });
 });
 
 // Start the REST API server

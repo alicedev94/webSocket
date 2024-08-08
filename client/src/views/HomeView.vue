@@ -1,23 +1,25 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
-import Card from '@/components/Card.vue'
-import { useNotiStore } from '@/stores/noti.store'
+import { ref, watch } from 'vue';
+import Card from '@/components/Card.vue';
 import type { Notification } from '@/interfaces/notications';
+import { sendComand } from '@/composables/notifications/socketEmit';
+import { useNotiStore } from '@/stores/noti.store';
 
+const notiStore = useNotiStore();
 const localNotifications = ref<Notification[]>([]);
 
-// Carga inicial de la app
-onMounted(async () => {
-    const notiStore = useNotiStore();
-    await notiStore.find();
-    localNotifications.value = notiStore.notifications;
-})
+watch(notiStore.notifications, () => {
+    localNotifications.value = [...notiStore.notifications];
+});
 </script>
 
 <template>
     <div>
+        <h1>GTE. TIENDA</h1>
+        <button @click="sendComand">Enviar solicitud..</button>
+    </div>
+    <div>
+        <p>{{ notiStore.pruebas }}</p>
         <Card :notification="localNotifications" />
     </div>
 </template>
-
-<style scoped></style>

@@ -26,7 +26,7 @@ defineProps<{
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="item in notification[0]" :key="item.sender">
+                <tr v-for="item in notification" :key="item.sender">
                     <td>
                         {{ item.recipient }}
                     </td>
